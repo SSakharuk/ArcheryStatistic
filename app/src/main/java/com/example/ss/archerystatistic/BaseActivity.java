@@ -24,7 +24,7 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onPause() {
-        dataSource.close();
+        //dataSource.close();
         super.onPause();
     }
 }

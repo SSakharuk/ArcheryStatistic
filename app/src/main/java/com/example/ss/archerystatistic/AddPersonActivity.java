@@ -5,21 +5,34 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
+import com.example.ss.archerystatistic.util.RequestCodes;
+
+import java.util.Date;
 
 
 public class AddPersonActivity extends BaseActivity {
-
-    private ArcheryDataSource dataSource;
+    private EditText textName;
+    private EditText textAge;
+    private EditText textEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_person);
+
+        textName = (EditText)findViewById(R.id.textName);
+        textAge = (EditText)findViewById(R.id.textAge);
+        textEmail = (EditText)findViewById(R.id.textEmail);
+
     }
 
 
     public void addPersonClick(View view) {
-
+        dataSource.createPerson(textName.getText().toString(), Integer.parseInt(textAge.getText().toString()), textEmail.getText().toString(), new Date(), new Date());
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
@@ -30,7 +43,7 @@ public class AddPersonActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
-        dataSource.close();
+       // dataSource.close();
         super.onPause();
     }
 

@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add New"
-                android:onClick="onClick"/>
+                android:onClick="PersonActivityClick"/>
 
             <Button
                 android:id="@+id/delete"
@@ -30,12 +30,17 @@
                 android:onClick="onClick"/>
 
         </LinearLayout>
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnShootSeries"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+            android:text="Shoot Series"
+            android:onClick="ShootSeriesClick">
+        </Button>
+        <ListView
+            android:id="@+id/listViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

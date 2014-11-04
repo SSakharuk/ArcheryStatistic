@@ -24,7 +24,7 @@ public class BaseListActivity extends ListActivity {
 
     @Override
     protected void onPause() {
-        dataSource.close();
+        //dataSource.close();
         super.onPause();
     }
 }

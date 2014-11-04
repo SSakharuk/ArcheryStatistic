@@ -3,19 +3,37 @@ import java.util.List;
 import java.util.Random;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 
-public class MainActivity extends BaseListActivity {
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+import com.example.ss.archerystatistic.util.RequestCodes;
 
 
+public class MainActivity extends BaseActivity{
 
+
+    private ArrayAdapter<Person> adapter;
+    private ListView listViewMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +44,43 @@ public class MainActivity extends BaseListActivity {
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        ArrayAdapter<Person> adapter = new ArrayAdapter<Person>(this,
-                android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);
-    }
+        adapter = new ArrayAdapter<Person>(this,
+                android.R.layout.simple_list_item_single_choice, values);
+        listViewMain = (ListView) findViewById(R.id.listViewMain);
+        listViewMain.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-    // Will be called via the onClick attribute
-    // of the buttons in main.xml
+        listViewMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Log.d("some info ", "itemClick: position = " + position + ", id = "
+                        + id);
+            }
+        });
+
+        listViewMain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                Log.d("", "itemSelect: position = " + position + ", id = "
+                        + id);
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.d("", "itemSelect: nothing");
+            }
+        });
+
+            listViewMain.setAdapter(adapter);
+
+
+            //setListAdapter(adapter);
+        }
+
+                // Will be called via the onClick attribute
+                // of the buttons in main.xml
+
     public void onClick(View view) {
         @SuppressWarnings("unchecked")
-        ArrayAdapter<Person> adapter = (ArrayAdapter<Person>) getListAdapter();
+       // ArrayAdapter<Person> adapter = (ArrayAdapter<Person>) adapter;
         Person comment = null;
         switch (view.getId()) {
             case R.id.add:
@@ -45,27 +90,51 @@ public class MainActivity extends BaseListActivity {
                 comment = dataSource.createPerson(comments[nextInt]);
                 adapter.add(comment);
                 break;
-            case R.id.delete:
-                if (getListAdapter().getCount() > 0) {
-                    comment = (Person) getListAdapter().getItem(0);
-                    dataSource.deletePerson(comment);
-                    adapter.remove(comment);
-                }
-                break;
+            //case R.id.delete:
+              //  if (getListAdapter().getCount() > 0) {
+                //    comment = (Person) getListAdapter().getItem(0);
+                  //  dataSource.deletePerson(comment);
+                    //adapter.remove(comment);
+                //}
+                //break;
         }
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onResume() {
-        dataSource.open();
-        super.onResume();
+    public void PersonActivityClick(View view)
+    {
+        Intent intent = new Intent(this, AddPersonActivity.class);
+        //EditText editText = (EditText) findViewById(R.id.edit_message);
+        //String message = editText.getText().toString();
+        //intent.putExtra(EXTRA_MESSAGE, message);
+        startActivityForResult(intent, RequestCodes.ADD_PERSON);
+    }
+
+    public void ShootSeriesClick(View view) {
+
+        Person person = (Person)listViewMain.getAdapter().getItem(listViewMain.getCheckedItemPosition());
+
+        Log.d("element", "name" + listViewMain.getAdapter().getItem(listViewMain.getCheckedItemPosition()) );
+
+        Toast t = Toast.makeText(getApplicationContext(), listViewMain.getAdapter().getItem(listViewMain.getCheckedItemPosition()).toString(), Toast.LENGTH_LONG);
+
+        t.show();
+
     }
 
     @Override
-    protected void onPause() {
-        dataSource.close();
-        super.onPause();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == RequestCodes.ADD_PERSON)
+        {
+            if(resultCode == RESULT_OK){
+                Toast t = Toast.makeText(getApplicationContext(), "SS THE BEST", Toast.LENGTH_LONG);
+
+                t.show();
+
+                refreshListView();
+
+            }
+        }
     }
 
     @Override
@@ -88,5 +157,14 @@ public class MainActivity extends BaseListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshListView()
+    {
+        List<Person> values = dataSource.getAllPersons();
+        ArrayAdapter<Person> adapter = new ArrayAdapter<Person>(this,
+                android.R.layout.simple_list_item_1, values);
+
+        listViewMain.setAdapter(adapter);
     }
 }
