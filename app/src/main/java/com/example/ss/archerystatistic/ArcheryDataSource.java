@@ -39,6 +39,7 @@ public class ArcheryDataSource {
 
     public Person createPerson(String name, int age, String email, Date dateCreated, Date dateUpdated)
     {
+        //"yyyy-MM-dd HH:mm:ss";
         ContentValues values = new ContentValues();
         values.put(SQLDatabaseHelper.COLUMN_NAME, name);
         values.put(SQLDatabaseHelper.COLUMN_AGE, age);
@@ -89,8 +90,8 @@ public class ArcheryDataSource {
         person.set_name(cursor.getString(1));
         person.set_age(cursor.getInt(2));
         person.set_email(cursor.getString(3));
-
-        //TODO: add columns
+        person.set_dateCreated(cursor.getString(4));
+        person.set_dateUpdated(cursor.getString(5));
 
         return person;
     }

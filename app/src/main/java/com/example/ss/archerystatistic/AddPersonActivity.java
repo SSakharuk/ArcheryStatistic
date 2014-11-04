@@ -1,21 +1,25 @@
 package com.example.ss.archerystatistic;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+import android.text.Editable;
+import android.text.TextWatcher;
 
-import com.example.ss.archerystatistic.util.RequestCodes;
+import com.example.ss.archerystatistic.util.ValidationHelper;
 
 import java.util.Date;
 
 
 public class AddPersonActivity extends BaseActivity {
+
+    protected ValidationHelper validationHelper;
     private EditText textName;
     private EditText textAge;
     private EditText textEmail;
+    private Button btnAddPerson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,48 +29,73 @@ public class AddPersonActivity extends BaseActivity {
         textName = (EditText)findViewById(R.id.textName);
         textAge = (EditText)findViewById(R.id.textAge);
         textEmail = (EditText)findViewById(R.id.textEmail);
+        btnAddPerson = (Button) findViewById(R.id.buttonAddPerson);
 
+        validationHelper = new ValidationHelper(this);
+
+        registerViews();
     }
 
+    private void registerViews() {
 
-    public void addPersonClick(View view) {
-        dataSource.createPerson(textName.getText().toString(), Integer.parseInt(textAge.getText().toString()), textEmail.getText().toString(), new Date(), new Date());
+        textName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                validationHelper.hasText(textName);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        });
+
+        textEmail.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                validationHelper.isEmailAddress(textEmail, false);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        textAge.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                validationHelper.hasText(textAge);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        });
+
+        btnAddPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( checkValidation () )
+                    submitForm();
+                else
+                    Toast.makeText(AddPersonActivity.this, "Form contains error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void submitForm() {
+        // Submit your form here. your form is valid
+        Toast.makeText(this, "Submitting form...", Toast.LENGTH_LONG).show();
+        dataSource.createPerson(textName.getText().toString().trim(), Integer.parseInt(textAge.getText().toString()), textEmail.getText().toString(), new Date(), new Date());
         setResult(RESULT_OK);
         finish();
     }
 
-    @Override
-    protected void onResume() {
-        dataSource.open();
-        super.onResume();
-    }
+    private boolean checkValidation() {
+        boolean ret = true;
 
-    @Override
-    protected void onPause() {
-       // dataSource.close();
-        super.onPause();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_person, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (!validationHelper.hasText(textName)) {
+            ret = false;
+        }
+        if (!validationHelper.hasText(textAge)) {
+            ret = false;
+        }
+        if (!validationHelper.isEmailAddress(textEmail, false)) {
+            ret = false;
         }
 
-        return super.onOptionsItemSelected(item);
+        return ret;
     }
 }

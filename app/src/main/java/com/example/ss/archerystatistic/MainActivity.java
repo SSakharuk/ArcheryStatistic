@@ -75,32 +75,6 @@ public class MainActivity extends BaseActivity{
             //setListAdapter(adapter);
         }
 
-                // Will be called via the onClick attribute
-                // of the buttons in main.xml
-
-    public void onClick(View view) {
-        @SuppressWarnings("unchecked")
-       // ArrayAdapter<Person> adapter = (ArrayAdapter<Person>) adapter;
-        Person comment = null;
-        switch (view.getId()) {
-            case R.id.add:
-                String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
-                int nextInt = new Random().nextInt(3);
-                // save the new person to the database
-                comment = dataSource.createPerson(comments[nextInt]);
-                adapter.add(comment);
-                break;
-            //case R.id.delete:
-              //  if (getListAdapter().getCount() > 0) {
-                //    comment = (Person) getListAdapter().getItem(0);
-                  //  dataSource.deletePerson(comment);
-                    //adapter.remove(comment);
-                //}
-                //break;
-        }
-        adapter.notifyDataSetChanged();
-    }
-
     public void PersonActivityClick(View view)
     {
         Intent intent = new Intent(this, AddPersonActivity.class);
@@ -110,7 +84,7 @@ public class MainActivity extends BaseActivity{
         startActivityForResult(intent, RequestCodes.ADD_PERSON);
     }
 
-    public void ShootSeriesClick(View view) {
+    public void ShootSeriesActivityClick(View view) {
 
         Person person = (Person)listViewMain.getAdapter().getItem(listViewMain.getCheckedItemPosition());
 

@@ -10,8 +10,8 @@ public class Person {
     private String _name;
     private int _age;
     private String _email;
-    private Date _dateCreated;
-    private Date _dateUpdated;
+    private String _dateCreated;
+    private String _dateUpdated;
 
     public int get_id() {
         return _id;
@@ -45,19 +45,19 @@ public class Person {
         this._email = _email;
     }
 
-    public Date get_dateCreated() {
+    public String get_dateCreated() {
         return _dateCreated;
     }
 
-    public void set_dateCreated(Date _dateCreated) {
+    public void set_dateCreated(String _dateCreated) {
         this._dateCreated = _dateCreated;
     }
 
-    public Date get_dateUpdated() {
+    public String get_dateUpdated() {
         return _dateUpdated;
     }
 
-    public void set_dateUpdated(Date _dateUpdated) {
+    public void set_dateUpdated(String _dateUpdated) {
         this._dateUpdated = _dateUpdated;
     }
 

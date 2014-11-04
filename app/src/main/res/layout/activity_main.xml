@@ -16,27 +16,38 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/add"
+                android:id="@+id/btnAddPerson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add New"
+                android:text="@string/add_new_person"
                 android:onClick="PersonActivityClick"/>
 
             <Button
-                android:id="@+id/delete"
+                android:id="@+id/btnUpdatePerson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete First"
-                android:onClick="onClick"/>
+                android:text="@string/update_person"
+                android:onClick="PersonUpdateActivityClick">
+            </Button>
+
+            <Button
+                android:id="@+id/btnPersonDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_info"
+                android:onClick="PersonDetailsActivityClick">
+            </Button>
+
+            <Button
+                android:id="@+id/btnShootSeries"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shoot_series"
+                android:onClick="ShootSeriesActivityClick">
+            </Button>
 
         </LinearLayout>
-        <Button
-            android:id="@+id/btnShootSeries"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shoot Series"
-            android:onClick="ShootSeriesClick">
-        </Button>
+
         <ListView
             android:id="@+id/listViewMain"
             android:layout_width="match_parent"

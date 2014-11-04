@@ -24,6 +24,10 @@
             android:name="com.example.ss.archerystatistic.AddPersonActivity"
             android:label="@string/title_activity_add_person" >
         </activity>
+        <activity
+            android:name="com.example.ss.archerystatistic.UpdatePersonActivity"
+            android:label="@string/title_activity_update_person" >
+        </activity>
     </application>
 
 </manifest>

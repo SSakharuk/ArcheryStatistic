@@ -6,5 +6,18 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_add_user">AddUserActivity</string>
     <string name="title_activity_add_person">AddPersonActivity</string>
+    <string name="add_new_person">Add New Archer</string>
+    <string name="shoot_series">Shoot Series</string>
+    <string name="update_person">Update Archer</string>
+    <string name="person_info">Person Details</string>
+    <string name="title_activity_update_person">UpdatePersonActivity</string>
+
+    <string name="add_person_record">Add Person</string>
+    <string name="update_person_record">Update Person</string>
+    <string name="delete_person_record">Delete Person</string>
+
+
+    <string name="validation_invalid_email">Invalid Email address.</string>
+    <string name="validation_required_field">Required field.</string>
 
 </resources>
